@@ -1,5 +1,3 @@
-from topik_writer_grader.sub_agents.model_config import GENERATE_CONTENT_CONFIG, LLM_MODEL
-
 ROLE_PROMPT = """당신은 주어진 텍스트에서 TOPIK 쓰기 문제의 핵심 정보를 추출하여 JSON 형식으로 구조화하는 전문가입니다."""
 
 JSON_SCHEMA = """

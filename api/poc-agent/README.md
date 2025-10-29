@@ -48,7 +48,7 @@ print(result)
 ### 터미널에서 테스트
 
 ```bash
-cd api/04-poc-agent
+cd api/poc-agent
 python -m topik_writer_grader.agent
 ```
 
@@ -135,26 +135,3 @@ python -m topik_writer_grader.agent
 2. Google ADK를 통해 LLM 호출
 3. 응답 파싱 및 JSON 구조화
 4. `utils.validate_score_range()`로 점수 검증
-
-## 🧪 테스트 케이스
-
-시스템은 다음 테스트 케이스들을 포함합니다:
-
-- 51번 담화 완성 (정상 케이스)
-- 53번 설명문 (글자수 부족 케이스)
-- 54번 논술문 (글자수 부족 케이스)
-- 잘못된 문항 번호 (에러 케이스)
-
-## 🎯 다음 단계
-
-1. **Google ADK 연동**: 실제 LLM 호출 로직 구현
-2. **고도화된 채점**: 더 정교한 채점 알고리즘 적용
-3. **배치 처리**: 여러 답안 동시 채점 기능
-4. **성능 최적화**: 캐싱 및 병렬 처리
-5. **웹 API**: REST API 엔드포인트 제공
-
----
-
-이 시스템은 확장 가능하고 유지보수가 용이한 구조로 설계되어,
-새로운 문항 유형이나 채점 기준 추가가 쉽게 가능합니다.
-

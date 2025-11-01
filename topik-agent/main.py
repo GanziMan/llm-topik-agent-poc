@@ -16,7 +16,7 @@ from google.adk.evaluation.local_eval_set_results_manager import (
 )
 from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
 from google.adk.sessions.in_memory_session_service import InMemorySessionService
-from topik_writer_grader.agent import root_agent
+from topik_writing_evaluator_agent.agent import root_agent
 
 # Configure logging to show INFO level messages
 logging.basicConfig(level=logging.INFO)
@@ -24,13 +24,13 @@ logging.basicConfig(level=logging.INFO)
 
 class PocAgentLoader(BaseAgentLoader):
     def load_agent(self, app_name: str) -> Union[BaseAgent, App]:
-        if app_name == "topik_writer_grader":
+        if app_name == "topik_writing_evaluator":
             # The ADK App object wraps the root agent
             return App(name=app_name, root_agent=root_agent)
         raise ValueError(f"Unknown app: {app_name}")
 
     def list_agents(self) -> list[str]:
-        return ["topik_writer_grader"]
+        return ["topik_writing_evaluator"]
 
 
 # Define the directory where agent code is located
@@ -69,7 +69,7 @@ app = web_server.get_fast_api_app(
 # Add a root endpoint for basic health checks
 @app.get("/")
 def read_root():
-    return {"message": "ADK server is running for topik_writer_grader."}
+    return {"message": "ADK server is running for topik_writing_evaluator."}
 
 
 # Main entry point to run the server

@@ -13,6 +13,7 @@
     "@google/generative-ai": "^0.24.1",
     "@tailwindcss/postcss": "^4.1.13",
     "ai": "^5.0.75",
+    "ky": "^1.13.0",
     "next": "15.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",

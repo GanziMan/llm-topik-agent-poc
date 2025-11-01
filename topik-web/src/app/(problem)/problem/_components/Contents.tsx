@@ -9,85 +9,28 @@ import Problem52 from "@/app/_components/Problem/52";
 import Problem53 from "@/app/_components/Problem/53";
 import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
-
-// 요청 바디 생성기
-function makeRequestBody(
-  id: ProblemId,
-  answer: FillBlankAnswer,
-  essayAnswer: string,
-  context: string
-): GradeRequest {
-  if (id === "51" || id === "52") {
-    return {
-      problem_id: id,
-      question: ProblemTitle(id, context),
-      answer: {
-        fill_blank_1: answer.fill_blank_1 ?? "",
-        fill_blank_2: answer.fill_blank_2 ?? "",
-      },
-    };
-  }
-
-  // 53/54
-  return {
-    problem_id: id,
-    question: ProblemTitle(id, context),
-    answer: essayAnswer,
-    char_count: essayAnswer.length,
-  };
-}
-
-export type ProblemId = "51" | "52" | "53" | "54";
-export type ProblemType = "fill-blank" | "essay";
-
-// ====== 51/52 (빈칸형) ======
-export interface FillBlankAnswer {
-  fill_blank_1: string;
-  fill_blank_2: string;
-}
-
-export interface GradeRequest_51_52 {
-  problem_id: "51" | "52";
-  question: string; // UI에 노출한 문항 제목/지문
-  answer: FillBlankAnswer; // ㄱ, ㄴ 두 칸
-}
-
-export interface GradeResponse_51_52 {
-  problem_id: "51" | "52";
-  totalScore: number; // 0~10
-  breakdown: { fill_blank_1: number; fill_blank_2: number }; // 각 0~5
-  feedback: string;
-  metrics?: { charCount?: number; sentenceCount?: number }; // 서버 산출 객관값(옵션)
-}
-
-export interface GradeRequest_53_54 {
-  problem_id: "53" | "54";
-  question: string;
-  answer: string; // 본문 텍스트
-  char_count: number;
-  // 서버에서 실제 글자수 계산해 넣을 수도 있음(선택):
-  // actual_char_count?: number;
-}
-
-export type GradeRequest = GradeRequest_51_52 | GradeRequest_53_54;
+import { ProblemId, SentenceCompletionAnswer } from "../types";
+import { fetchEvaluation } from "./api";
 
 export default function Contents({ id }: { id: string }) {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState("");
 
-  const [answer, setAnswer] = useState<FillBlankAnswer>({
-    fill_blank_1: "",
-    fill_blank_2: "",
+  const [answer, setAnswer] = useState<SentenceCompletionAnswer>({
+    answer1: "",
+    answer2: "",
   });
+
   const [essayAnswer, setEssayAnswer] = useState<string>("");
 
   const handleInputChange = (
     icon: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    const key = icon === "ㄱ" ? "answer1" : "answer2";
     setAnswer((prev) => ({
       ...prev,
-      [icon === "ㄱ" ? "fill_blank_1" : "fill_blank_2"]: e.target.value,
+      [key]: e.target.value,
     }));
   };
 
@@ -102,25 +45,14 @@ export default function Contents({ id }: { id: string }) {
         ?.replace(/<[^>]*>/g, " ") // 태그 제거
         ?.replace(/\s+/g, " ")
         .trim();
-      const requestBody = makeRequestBody(
+
+      const data = await fetchEvaluation(
         id as ProblemId,
         answer,
-        essayAnswer as string,
+        essayAnswer,
         context
       );
 
-      const response = await fetch("/api/llm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
-      }
-
-      const data: unknown = await response.json();
-      // 안전하게 파싱/표시(선택): 클라에서도 가벼운 형태 검증
       setResult(JSON.stringify(data, null, 2));
     } catch (e) {
       setResult(
@@ -154,12 +86,12 @@ export default function Contents({ id }: { id: string }) {
         <div className="flex flex-col gap-5">
           <InputUpload
             icon="ㄱ"
-            value={answer.fill_blank_1}
+            value={answer.answer1}
             onChange={handleInputChange}
           />
           <InputUpload
             icon="ㄴ"
-            value={answer.fill_blank_2}
+            value={answer.answer2}
             onChange={handleInputChange}
           />
           {/* 51, 52번용 제출 버튼이 필요하면 여기에 추가 */}
@@ -187,15 +119,4 @@ export default function Contents({ id }: { id: string }) {
       </button>
     </>
   );
-}
-
-function ProblemTitle(id: string, context: string) {
-  switch (id) {
-    case "54":
-      return `다음을 참고하여 600~700자로 글을 쓰시오. 단, 문제를 그대로 옮겨 쓰지마시오. (50점) \n\n${context}`;
-    case "53":
-      return `다음을 참고하여 ‘인터넷의 장단점’에 대한 글을 200~300자로 쓰십시오. 단, 글의 제목을 쓰지 마십시오. (30점) \n\n${context}`;
-    default:
-      return `다음 글의 ㄱ과 ㄴ에 알맞은 말을 각각 쓰시오. (각 10점) \n\n${context}`;
-  }
 }

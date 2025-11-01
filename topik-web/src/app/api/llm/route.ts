@@ -131,40 +131,8 @@ export async function POST(request: Request) {
     console.log(adkPayload);
     console.log(JSON.stringify(adkPayload));
 
-    // if (!upstream.ok) {
-    //   const errorText = await upstream
-    //     .text()
-    //     .catch(() => "Could not  read error text.");
-
-    //   return NextResponse.json(
-    //     {
-    //       error: "ADK /run failed",
-    //       status: upstream.status,
-    //       details: errorText,
-    //     },
-    //     { status: 502 }
-    //   );
-    // }
-
     // 5) ADK는 Event[] (camelCase) JSON을 반환
     const events = await upstream.json();
-
-    // // 에이전트 응답에서 `text` 필드 추출 및 파싱
-    // if (
-    //   !events ||
-    //   !Array.isArray(events) ||
-    //   events.length === 0 ||
-    //   !events[0].content?.parts?.[0]?.text
-    // ) {
-    //   console.error(
-    //     "Invalid or empty events structure received from ADK:",
-    //     events
-    //   );
-    //   return NextResponse.json(
-    //     { error: "Invalid response structure from agent" },
-    //     { status: 500 }
-    //   );
-    // }
 
     const rawText = events[0].content.parts[0].text;
 

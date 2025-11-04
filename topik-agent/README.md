@@ -39,7 +39,7 @@ orchestrator = OrchestratorAgent()
 result = orchestrator.grade(
     question_number=53,
     question_prompt="다음 자료를 보고 '휴대폰의 기능 변화'에 대한 글을 200~300자로 쓰십시오.",
-    answer_text="최근 휴대폰은 과거와 달리 많은 기능 변화를 보였다..."
+    answer="최근 휴대폰은 과거와 달리 많은 기능 변화를 보였다..."
 )
 
 print(result)

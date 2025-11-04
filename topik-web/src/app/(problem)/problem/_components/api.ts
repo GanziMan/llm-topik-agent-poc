@@ -1,18 +1,20 @@
-import { GradeRequest, ProblemId, SentenceCompletionAnswer } from "../types";
-
-import ky from "ky";
+import {
+  ProblemId,
+  SentenceCompletionAnswer,
+  TopikWritingEvaluatorRequest,
+} from "@/app/types";
 
 function formatPayload(
   id: ProblemId,
   answer: SentenceCompletionAnswer,
   essayAnswer: string,
   context: string
-): GradeRequest {
+): TopikWritingEvaluatorRequest {
   if (id === "51" || id === "52") {
     return {
       problem_id: id,
       question_prompt: ProblemTitle(id, context),
-      answer_text: {
+      answer: {
         answer1: answer.answer1,
         answer2: answer.answer2,
       },
@@ -23,7 +25,7 @@ function formatPayload(
   return {
     problem_id: id,
     question_prompt: ProblemTitle(id, context),
-    answer_text: essayAnswer,
+    answer: essayAnswer,
     char_count: essayAnswer.length,
   };
 }
@@ -33,10 +35,17 @@ export async function fetchEvaluation(
   answer: SentenceCompletionAnswer,
   essayAnswer: string,
   context: string
-): Promise<any> {
+) {
   const requestBody = formatPayload(id, answer, essayAnswer, context);
-  const response = await ky.post("/api/llm", { json: requestBody }).json();
-  return response;
+
+  console.log("requestBody: " + JSON.stringify(requestBody));
+  const response = await fetch("/api/llm", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(requestBody),
+  });
+  console.log(response);
+  return response.json();
 }
 
 export function ProblemTitle(id: string, context: string) {

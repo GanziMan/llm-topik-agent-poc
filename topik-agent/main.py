@@ -2,6 +2,7 @@ import logging
 from typing import Union
 import os
 import uvicorn
+from dotenv import load_dotenv
 from google.adk.agents import BaseAgent
 from google.adk.apps.app import App
 from google.adk.artifacts.in_memory_artifact_service import InMemoryArtifactService
@@ -17,6 +18,9 @@ from google.adk.evaluation.local_eval_set_results_manager import (
 from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
 from google.adk.sessions.in_memory_session_service import InMemorySessionService
 from topik_writing_evaluator_agent.agent import root_agent
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging to show INFO level messages
 logging.basicConfig(level=logging.INFO)

@@ -66,7 +66,7 @@ def validate_score_range(score: int, max_score: int, score_name: str = "점수")
 
 
 def combine_prompts(role_prompt: str, system_prompt: str, context_prompt: str,
-                    question_prompt: str, answer_text: str) -> str:
+                    question_prompt: str, answer: str) -> str:
     """
     모든 프롬프트를 조합하여 LLM에 전달할 최종 프롬프트를 생성합니다.
 
@@ -75,7 +75,7 @@ def combine_prompts(role_prompt: str, system_prompt: str, context_prompt: str,
         system_prompt: 시스템 프롬프트
         context_prompt: 컨텍스트 프롬프트
         question_prompt: 문제 프롬프트
-        answer_text: 학생 답안
+        answer: 학생 답안
 
     Returns:
         조합된 최종 프롬프트
@@ -91,7 +91,7 @@ def combine_prompts(role_prompt: str, system_prompt: str, context_prompt: str,
 {question_prompt}
 
 [학생 답안]
-{answer_text}
+{answer}
 
 위 학생 답안을 채점하고 JSON 형식으로 결과를 반환해주세요.
 """
@@ -158,4 +158,3 @@ def format_grading_result(result: dict) -> str:
 
     formatted += "=" * 50
     return formatted
-

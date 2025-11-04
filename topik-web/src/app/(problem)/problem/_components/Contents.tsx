@@ -9,7 +9,7 @@ import Problem52 from "@/app/_components/Problem/52";
 import Problem53 from "@/app/_components/Problem/53";
 import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
-import { ProblemId, SentenceCompletionAnswer } from "../types";
+import { ProblemId, SentenceCompletionAnswer } from "../../../types";
 import { fetchEvaluation } from "./api";
 
 export default function Contents({ id }: { id: string }) {

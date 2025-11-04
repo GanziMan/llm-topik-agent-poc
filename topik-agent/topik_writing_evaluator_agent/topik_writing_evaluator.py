@@ -12,9 +12,9 @@ logger = logging.getLogger(__name__)
 
 # # BaseAgent를 직접 상속받아 _run_async_impl을 구현함으로써 ‘에이전트가 언제, 무엇을, 어떻게 수행할지’의 전체 제어 흐름을 직접 정의
 class TopikWritingEvaluator(BaseAgent):
-    sentence_completion_evaluator_agent: LlmAgent
-    info_description_evaluator_agent: LlmAgent
-    opinion_essay_evaluator_agent: LlmAgent
+    sentence_completion_agent: LlmAgent
+    info_description_agent: LlmAgent
+    opinion_essay_agent: LlmAgent
 
     # 가장 중요한 설정 - pydantic은 int와 str 같은 기본 자료형만 허용하는데 llm 같은 커스텀 속성도 pydantic이 거부하지 않도록 model_config를 사용하여 커스텀 타입도 설정해준다.
     model_config = {"arbitrary_types_allowed": True, }
@@ -22,13 +22,13 @@ class TopikWritingEvaluator(BaseAgent):
     # def __init__ 의미는? -> 생성자 초기화 메서드
     def __init__(
         self, name, description: str,
-        sentence_completion_evaluator_agent: LlmAgent,
-        info_description_evaluator_agent: LlmAgent,
-        opinion_essay_evaluator_agent: LlmAgent,
+        sentence_completion_agent: LlmAgent,
+        info_description_agent: LlmAgent,
+        opinion_essay_agent: LlmAgent,
     ):
 
-        sub_agents_list = [sentence_completion_evaluator_agent,
-                           info_description_evaluator_agent, opinion_essay_evaluator_agent]
+        sub_agents_list = [sentence_completion_agent,
+                           info_description_agent, opinion_essay_agent]
 
         # super().__init 하는 이유는? -> 상속받은 클래스의 생성자를 호출하기 위해서
         # super().__init__ 은 상속받은 클래스의 생성자를 호출하기 위해서 사용한다.
@@ -37,9 +37,9 @@ class TopikWritingEvaluator(BaseAgent):
         super().__init__(
             name=name,
             description=description,
-            sentence_completion_evaluator_agent=sentence_completion_evaluator_agent,
-            info_description_evaluator_agent=info_description_evaluator_agent,
-            opinion_essay_evaluator_agent=opinion_essay_evaluator_agent,
+            sentence_completion_agent=sentence_completion_agent,
+            info_description_agent=info_description_agent,
+            opinion_essay_agent=opinion_essay_agent,
             sub_agents=sub_agents_list
         )
 
@@ -79,11 +79,11 @@ class TopikWritingEvaluator(BaseAgent):
 
         # Route to a single sub-agent
         if question_number in [51, 52]:
-            target = self.sentence_completion_evaluator_agent
+            sub_agent = self.sentence_completion_agent
         elif question_number == 53:
-            target = self.info_description_evaluator_agent
+            sub_agent = self.info_description_agent
         elif question_number == 54:
-            target = self.opinion_essay_evaluator_agent
+            sub_agent = self.opinion_essay_agent
         else:
             raise ValueError(f"Invalid question number: {question_number}")
 
@@ -92,7 +92,7 @@ class TopikWritingEvaluator(BaseAgent):
         # try-except 문의 이유는? -> 예외 처리를 위해서
         # target.run_async(ctx) 메서드를 호출하여 비동기적으로 LLM(대규모 언어 모델) 호출을 수행하는 함수
         try:
-            async for event in target.run_async(ctx):
+            async for event in sub_agent.run_async(ctx):
                 if event.is_final_response():
                     final_event = event
                 else:

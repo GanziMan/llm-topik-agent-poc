@@ -1,4 +1,6 @@
-export const MockContexts = {
+import { QuestionId } from "@/app/types";
+
+export const MockContexts: Record<QuestionId, React.ReactNode> = {
   "51": (
     <div className="p-[30px] font-medium bg-[#fafafa]">
       한 달 전에 이사를 했습니다. 그동안 집안 정리 때문에 정신이 없었는데 이제
@@ -8,11 +10,11 @@ export const MockContexts = {
   ),
   "52": (
     <div className="p-[30px] font-medium bg-[#fafafa]">
-      "스트레스를 받았을 때 사탕이나 과자와 같이 단 음식을 먹으면 기분이
+      스트레스를 받았을 때 사탕이나 과자와 같이 단 음식을 먹으면 기분이
       좋아진다. 단 음식으로 인해 뇌에서 기분을 좋게 만드는 호르몬이 나오기
       때문이다. 그런데 전문가들은 사람들이 술이나 담배에 중독되는 것처럼
       단맛에도 ( ㄱ ). 따라서 평소에 단 음식을 지나치게 많이 ( ㄴ ) 주의할
-      필요가 있다."
+      필요가 있다.
     </div>
   ),
   "53": (
@@ -49,3 +51,25 @@ export const MockContexts = {
     </>
   ),
 };
+
+export function QuestionTitle(id: QuestionId) {
+  switch (id) {
+    case "54":
+      return "다음을 참고하여 600~700자로 글을 쓰시오. 단, 문제를 그대로 옮겨 쓰지마시오. (50점)";
+    case "53":
+      return "다음을 참고하여 ‘인터넷의 장단점’에 대한 글을 200~300자로 쓰십시오. 단, 글의 제목을 쓰지 마십시오. (30점)";
+    default:
+      return "다음 글의 ㄱ과 ㄴ에 알맞은 말을 각각 쓰시오. (각 10점)";
+  }
+}
+
+export function QuestionPrompt(id: QuestionId, context: string) {
+  switch (id) {
+    case "54":
+      return `${QuestionTitle(id)} \n\n${context}`;
+    case "53":
+      return `${QuestionTitle(id)} \n\n${context}`;
+    default:
+      return `${QuestionTitle(id)} \n\n${context}`;
+  }
+}

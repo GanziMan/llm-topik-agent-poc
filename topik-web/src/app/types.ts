@@ -1,36 +1,35 @@
-export type ProblemId = "51" | "52" | "53" | "54";
+export type QuestionId = "51" | "52" | "53" | "54";
 
-export type ProblemType =
+export type QuestionType =
   | "sentence-completion"
   | "info-description"
   | "opinion-essay";
 
-// ====== 51/52 (빈칸형) ======
 export interface SentenceCompletionAnswer {
   answer1: string;
   answer2: string;
 }
 
-export interface SentenceCompletionRequest {
-  problem_id: "51" | "52";
-  question_prompt: string;
+interface BaseRequest {
+  problemId: QuestionId;
+  questionPrompt: string;
+}
+
+// ====== 51/52 (빈칸형) ======
+export interface SentenceCompletionRequest extends BaseRequest {
   answer: SentenceCompletionAnswer;
 }
 
 // ====== 53 (설명글 작성) ======
-export interface InfoDescriptionRequest {
-  problem_id: "53";
-  question_prompt: string;
+export interface InfoDescriptionRequest extends BaseRequest {
   answer: string;
-  char_count: number;
+  charCount: number;
 }
 
 // ====== 54 (에세이 작성) ======
-export interface OpinionEssayRequest {
-  problem_id: "54";
-  question_prompt: string;
+export interface OpinionEssayRequest extends BaseRequest {
   answer: string;
-  char_count: number;
+  charCount: number;
 }
 
 export type TopikWritingEvaluatorRequest =
@@ -39,14 +38,13 @@ export type TopikWritingEvaluatorRequest =
   | OpinionEssayRequest;
 
 // ====== ADK Server Response Types ======
-// ADK Server Response Types
 export interface AdkEventPart {
   text: string;
 }
 
 export interface AdkEventContent {
   parts: AdkEventPart[];
-  role: "user" | "model";
+  role: "model";
 }
 
 export interface AdkEvent {

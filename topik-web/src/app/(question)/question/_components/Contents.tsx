@@ -1,18 +1,19 @@
 "use client";
 
 import TextareaWithButton from "./TextareaWithButton";
-import InputUpload from "./InputUpload";
-import Problem54 from "@/app/_components/Problem/54";
+import InputUpload from "./InputWithUpload";
+import Problem54 from "@/app/_components/question/54";
 import { useState } from "react";
-import Problem51 from "@/app/_components/Problem/51";
-import Problem52 from "@/app/_components/Problem/52";
-import Problem53 from "@/app/_components/Problem/53";
+import Problem51 from "@/app/_components/question/51";
+import Problem52 from "@/app/_components/question/52";
+import Problem53 from "@/app/_components/question/53";
 import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
-import { ProblemId, SentenceCompletionAnswer } from "../../../types";
-import { fetchEvaluation } from "./api";
 
-export default function Contents({ id }: { id: string }) {
+import { fetchEvaluation } from "./api";
+import { QuestionId, SentenceCompletionAnswer } from "@/app/types";
+
+export default function Contents({ id }: { id: QuestionId }) {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState("");
 
@@ -41,19 +42,14 @@ export default function Contents({ id }: { id: string }) {
     setIsLoading(true);
     setResult("");
     try {
-      const context = renderToStaticMarkup(MockContexts[id as ProblemId])
+      const context = renderToStaticMarkup(MockContexts[id])
         ?.replace(/<[^>]*>/g, " ") // 태그 제거
         ?.replace(/\s+/g, " ")
         .trim();
 
-      const data = await fetchEvaluation(
-        id as ProblemId,
-        answer,
-        essayAnswer,
-        context
-      );
+      const data = await fetchEvaluation(id, answer, essayAnswer, context);
 
-      setResult(JSON.stringify(data, null, 2));
+      setResult(JSON.stringify(data));
     } catch (e) {
       setResult(
         e instanceof Error

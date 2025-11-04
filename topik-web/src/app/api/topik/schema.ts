@@ -1,8 +1,8 @@
 import z from "zod";
 
 export const topikWritingEvaluatorRequestSchema = z.object({
-  problem_id: z.enum(["51", "52", "53", "54"]),
-  question_prompt: z.string().min(1, "Question cannot be empty."),
+  problemId: z.enum(["51", "52", "53", "54"]),
+  questionPrompt: z.string().min(1, "Question cannot be empty."),
   answer: z.union([
     z.string(),
     z.object({
@@ -10,7 +10,7 @@ export const topikWritingEvaluatorRequestSchema = z.object({
       answer2: z.string(),
     }),
   ]),
-  char_count: z.number().optional(),
+  charCount: z.number().optional(),
 });
 
 export type TopikWritingEvaluatorRequest = z.output<

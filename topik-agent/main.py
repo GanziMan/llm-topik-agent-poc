@@ -19,10 +19,10 @@ from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
 from google.adk.sessions.in_memory_session_service import InMemorySessionService
 from topik_writing_evaluator_agent.agent import root_agent
 
-# Load environment variables from .env file
+# .env 파일 로드
 load_dotenv()
 
-# Configure logging to show INFO level messages
+# 로깅 설정
 logging.basicConfig(level=logging.INFO)
 
 

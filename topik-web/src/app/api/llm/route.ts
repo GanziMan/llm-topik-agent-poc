@@ -16,10 +16,7 @@ export async function POST(request: Request) {
       topikWritingEvaluatorRequestSchema.safeParse(rawBody);
 
     if (!success) {
-      return NextResponse.json(
-        { error: "Invalid request body", details: error.flatten() },
-        { status: 400 }
-      );
+      return NextResponse.json({ error }, { status: 400 });
     }
 
     const { problem_id, question_prompt, answer, char_count } = data;
@@ -43,7 +40,7 @@ export async function POST(request: Request) {
     };
 
     const json = {
-      app_name: APP, // "topik_writer_grader"
+      app_name: APP,
       user_id: USER, // 예: "u_1"
       session_id: SESSION,
       new_message: {

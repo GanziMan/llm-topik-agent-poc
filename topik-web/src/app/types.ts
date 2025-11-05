@@ -23,13 +23,13 @@ export interface SentenceCompletionRequest extends BaseRequest {
 // ====== 53 (설명글 작성) ======
 export interface InfoDescriptionRequest extends BaseRequest {
   answer: string;
-  charCount: number;
+  answerCharCount: number;
 }
 
 // ====== 54 (에세이 작성) ======
 export interface OpinionEssayRequest extends BaseRequest {
   answer: string;
-  charCount: number;
+  answerCharCount: number;
 }
 
 export type TopikWritingEvaluatorRequest =

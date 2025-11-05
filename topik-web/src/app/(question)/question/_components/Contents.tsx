@@ -10,8 +10,8 @@ import Problem53 from "@/app/_components/question/53";
 import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import { initAdkSession, fetchEvaluation } from "./api";
 import { QuestionId, SentenceCompletionAnswer } from "@/app/types";
+import { fetchEvaluation, initAdkSession } from "../api";
 
 export default function Contents({ id }: { id: QuestionId }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +40,6 @@ export default function Contents({ id }: { id: QuestionId }) {
   };
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 ADK 세션을 초기화합니다.
     initAdkSession();
   }, []);
 
@@ -96,7 +95,6 @@ export default function Contents({ id }: { id: QuestionId }) {
             value={answer.answer2}
             onChange={handleInputChange}
           />
-          {/* 51, 52번용 제출 버튼이 필요하면 여기에 추가 */}
         </div>
       )}
 

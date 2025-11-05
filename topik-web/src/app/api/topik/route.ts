@@ -1,6 +1,6 @@
 import { kyInstance } from "@/lib/ky";
 import { NextResponse } from "next/server";
-import { AdkRunResponse } from "@/app/types";
+import { TopikWritingEvaluatorRunResponse } from "@/app/types";
 import { topikWritingEvaluatorRequestSchema } from "@/app/schema";
 import { isHTTPError, isKyError, isTimeoutError } from "ky";
 import { cookies } from "next/headers";
@@ -11,40 +11,45 @@ export async function POST(request: Request) {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("topik_token")?.value ?? "";
   const userId = crypto.randomUUID();
-  await initAdkSession(APP, userId, sessionId);
 
-  console.log(request);
+  await initTopikWritingEvaluatorSession(APP, userId, sessionId);
+
+  const clientTopikWritingEvaluatorRequest = await request.json();
   try {
-    const topikWritingEvaluatorRequest = await request.json();
-
     const { success, data, error } =
       topikWritingEvaluatorRequestSchema.safeParse(
-        topikWritingEvaluatorRequest
+        clientTopikWritingEvaluatorRequest
       );
 
     if (!success) {
       return NextResponse.json({ error }, { status: 400 });
     }
 
-    const { problemId, questionPrompt, answer, charCount } = data;
+    const { problemId, questionPrompt, answer, answerCharCount } = data;
 
-    const adkResponse = await kyInstance
+    const topikWritingEvaluatorResponse = await kyInstance
       .post("run", {
-        json: adkRequest(
+        json: topikWritingEvaluatorRequest(
           JSON.stringify({
             question_number: Number(problemId),
             question_prompt: questionPrompt,
             answer,
-            ...(charCount !== undefined && { char_count: charCount }),
+            ...(answerCharCount !== undefined && {
+              answer_char_count: answerCharCount,
+            }),
           }),
           userId,
           sessionId
         ),
       })
-      .json<AdkRunResponse>();
+      .json<TopikWritingEvaluatorRunResponse>();
 
-    const adkResponseEvent = adkResponse[0].content.parts[0].text;
-    const jsonString = adkResponseEvent?.replace(/^```json\s*|```$/g, "");
+    const topikWritingEvaluatorResponseEvent =
+      topikWritingEvaluatorResponse[0].content.parts[0].text;
+    const jsonString = topikWritingEvaluatorResponseEvent?.replace(
+      /^```json\s*|```$/g,
+      ""
+    );
 
     return NextResponse.json(JSON.parse(jsonString));
   } catch (err) {
@@ -70,12 +75,15 @@ export async function POST(request: Request) {
   }
 }
 
-function adkRequest(text: string, userId: string, sessionId: string) {
+function topikWritingEvaluatorRequest(
+  text: string,
+  userId: string,
+  sessionId: string
+) {
   return {
     app_name: APP,
     user_id: userId,
     session_id: sessionId,
-
     new_message: {
       parts: [{ text }],
       role: "user",
@@ -83,7 +91,11 @@ function adkRequest(text: string, userId: string, sessionId: string) {
   };
 }
 
-async function initAdkSession(app: string, user: string, session: string) {
+async function initTopikWritingEvaluatorSession(
+  app: string,
+  user: string,
+  session: string
+) {
   try {
     await kyInstance.get(`apps/${app}/users/${user}/sessions/${session}`);
   } catch (e) {

@@ -4,11 +4,8 @@ import {
   TopikWritingEvaluatorRequest,
 } from "@/app/types";
 import { kyInstance } from "@/lib/ky";
-import { QuestionPrompt } from "../mock";
+import { QuestionPrompt } from "./mock";
 
-/**
- * 컴포넌트 마운트 시 호출하여 ADK 세션을 초기화합니다.
- */
 export async function initAdkSession() {
   try {
     await kyInstance.post("/api/topik/session");
@@ -40,7 +37,7 @@ function formatPayload(
     problemId: id,
     questionPrompt: QuestionPrompt(id, context),
     answer: essayAnswer,
-    charCount: essayAnswer.length,
+    answerCharCount: essayAnswer.length,
   };
 }
 
@@ -52,7 +49,6 @@ export async function fetchEvaluation(
 ) {
   const request = formatPayload(id, answer, essayAnswer, context);
 
-  // kyInstance.post의 반환값은 Promise<Response> 이므로 .json()을 호출해야 합니다.
   const response = await kyInstance.post("/api/topik", {
     json: request,
   });

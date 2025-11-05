@@ -10,7 +10,7 @@ export const topikWritingEvaluatorRequestSchema = z.object({
       answer2: z.string(),
     }),
   ]),
-  charCount: z.number().optional(),
+  answerCharCount: z.number().optional(),
 });
 
 export type TopikWritingEvaluatorRequest = z.output<

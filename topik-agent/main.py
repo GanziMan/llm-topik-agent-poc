@@ -26,10 +26,9 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 
 
-class PocAgentLoader(BaseAgentLoader):
+class TopikWritingEvaluatorAgentLoader(BaseAgentLoader):
     def load_agent(self, app_name: str) -> Union[BaseAgent, App]:
         if app_name == "topik_writing_evaluator":
-            # The ADK App object wraps the root agent
             return App(name=app_name, root_agent=root_agent)
         raise ValueError(f"Unknown app: {app_name}")
 
@@ -42,7 +41,7 @@ AGENTS_DIR = os.path.dirname(__file__)
 
 
 # Instantiate services with in-memory implementations
-agent_loader = PocAgentLoader()
+agent_loader = TopikWritingEvaluatorAgentLoader()
 session_service = InMemorySessionService()
 memory_service = InMemoryMemoryService()
 artifact_service = InMemoryArtifactService()
@@ -63,19 +62,16 @@ web_server = AdkWebServer(
     agents_dir=AGENTS_DIR,
 )
 
-# Get the FastAPI app object
+
 app = web_server.get_fast_api_app(
-    # Allow CORS for Next.js dev server
     allow_origins=["http://localhost:3000"]
 )
 
 
-# Add a root endpoint for basic health checks
 @app.get("/")
 def read_root():
     return {"message": "ADK server is running for topik_writing_evaluator."}
 
 
-# Main entry point to run the server
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=3001)

@@ -20,6 +20,6 @@ opinion_essay_agent = LlmAgent(
     name="opinion_essay_agent",
     instruction=system_prompt,
     model=LLM_MODEL.GEMINI_25FLASH,
-    description="Opinion Essay Evaluator Agent",
+    description="TOPIK 54번 문항 주관식 문항 평가 에이전트",
     generate_content_config=GENERATE_CONTENT_CONFIG
 )

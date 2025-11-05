@@ -59,13 +59,16 @@ class TopikWritingEvaluator(BaseAgent):
         ctx.user_content = types.Content(
             parts=[types.Part(text=standard_prompt)])
 
-        if question_number in [51, 52]:
-            sub_agent = self.sentence_completion_agent
-        elif question_number == 53:
-            sub_agent = self.info_description_agent
-        elif question_number == 54:
-            sub_agent = self.opinion_essay_agent
-        else:
+        routing_map = {
+            51: self.sentence_completion_agent,
+            52: self.sentence_completion_agent,
+            53: self.info_description_agent,
+            54: self.opinion_essay_agent,
+        }
+
+        sub_agent = routing_map.get(question_number)
+
+        if sub_agent is None:
             raise ValueError(f"Invalid question number: {question_number}")
 
         final_event = None

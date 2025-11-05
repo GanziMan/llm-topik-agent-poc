@@ -20,6 +20,6 @@ sentence_completion_agent = LlmAgent(
     name="sentence_completion_agent",
     instruction=system_prompt,
     model=LLM_MODEL.GEMINI_25FLASH,
-    description="Sentence Completion Evaluator Agent",
+    description="TOPIK 51, 52번 문항 주관식 문항 평가 에이전트",
     generate_content_config=GENERATE_CONTENT_CONFIG,
 )

@@ -15,7 +15,7 @@ OUTPUT_FORMAT_SCHEMA = """
 }
 """
 
-# For question 54
+
 SCORING_GUIDE = "54번: 내용_과제수행(12점), 전개_구조(12점), 언어_사용(26점) = 총 50점"
 
 CONTEXT_PROMPT = """

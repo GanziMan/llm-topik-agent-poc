@@ -19,6 +19,6 @@ info_description_agent = LlmAgent(
     name="info_description_agent",
     instruction=system_prompt,
     model=LLM_MODEL.GEMINI_25FLASH,
-    description="Info Description Evaluator Agent",
+    description="TOPIK 53번 문항 주관식 문항 평가 에이전트",
     generate_content_config=GENERATE_CONTENT_CONFIG
 )

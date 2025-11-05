@@ -11,7 +11,14 @@ import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { QuestionId, SentenceCompletionAnswer } from "@/types/topikWriteType";
-import { fetchEvaluation, initAdkSession } from "../actions";
+import { initAdkSession, fetchEvaluation } from "../actions";
+
+const problemComponentMap = {
+  "51": Problem51,
+  "52": Problem52,
+  "53": Problem53,
+  "54": Problem54,
+};
 
 export default function Contents({ id }: { id: QuestionId }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +47,7 @@ export default function Contents({ id }: { id: QuestionId }) {
   };
 
   useEffect(() => {
+    // 컴포넌트가 마운트될 때 ADK 세션을 초기화합니다.
     initAdkSession();
   }, []);
 
@@ -66,17 +74,12 @@ export default function Contents({ id }: { id: QuestionId }) {
     }
   };
 
+  const ProblemComponent = problemComponentMap[id];
+
   return (
     <>
-      {id === "51" ? (
-        <Problem51 context={MockContexts["51"]} />
-      ) : id === "52" ? (
-        <Problem52 context={MockContexts["52"]} />
-      ) : id === "53" ? (
-        <Problem53 context={MockContexts["53"]} />
-      ) : (
-        <Problem54 context={MockContexts["54"]} />
-      )}
+      <ProblemComponent context={MockContexts[id]} />
+
       {id === "53" || id === "54" ? (
         <TextareaWithButton
           maxLength={id === "53" ? 300 : 700}

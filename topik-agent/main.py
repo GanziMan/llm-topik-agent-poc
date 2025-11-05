@@ -36,16 +36,14 @@ class TopikWritingEvaluatorAgentLoader(BaseAgentLoader):
         return ["topik_writing_evaluator"]
 
 
-# Define the directory where agent code is located
 AGENTS_DIR = os.path.dirname(__file__)
 
 
-# Instantiate services with in-memory implementations
 agent_loader = TopikWritingEvaluatorAgentLoader()
 session_service = InMemorySessionService()
-memory_service = InMemoryMemoryService()
 artifact_service = InMemoryArtifactService()
 credential_service = InMemoryCredentialService()
+memory_service = InMemoryMemoryService()
 eval_sets_manager = InMemoryEvalSetsManager()
 eval_set_results_manager = LocalEvalSetResultsManager(agents_dir=AGENTS_DIR)
 

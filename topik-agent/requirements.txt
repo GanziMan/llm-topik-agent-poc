@@ -1,2 +1,8 @@
+# Google API
+google-genai==0.24.1
+
+# ADK
 google-adk==1.16.0
+
+# Environment
 python-dotenv

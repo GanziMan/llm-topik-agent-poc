@@ -2,6 +2,7 @@ import ky, { HTTPError } from "ky";
 
 export const kyInstance = ky.create({
   prefixUrl: process.env.AGENT_BASE_URL,
+  timeout: 300000,
   headers: {
     "Content-Type": "application/json",
   },

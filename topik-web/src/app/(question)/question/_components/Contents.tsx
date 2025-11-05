@@ -11,7 +11,7 @@ import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { QuestionId, SentenceCompletionAnswer } from "@/types/topikWriteType";
-import { fetchEvaluation, initAdkSession } from "../api";
+import { fetchEvaluation, initAdkSession } from "../actions";
 
 export default function Contents({ id }: { id: QuestionId }) {
   const [isLoading, setIsLoading] = useState(false);

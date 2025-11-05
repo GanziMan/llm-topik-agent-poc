@@ -2,32 +2,22 @@
 
 import TextareaWithButton from "./TextareaWithButton";
 import AnswerUploadField from "./AnswerUploadField";
-import Problem54 from "@/app/_components/question/54";
 import { useEffect, useState } from "react";
-import Problem51 from "@/app/_components/question/51";
-import Problem52 from "@/app/_components/question/52";
-import Problem53 from "@/app/_components/question/53";
 import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { QuestionId, SentenceCompletionAnswer } from "@/types/topikWriteType";
 import { initAdkSession, fetchEvaluation } from "../actions";
 
-const problemComponentMap = {
-  "51": Problem51,
-  "52": Problem52,
-  "53": Problem53,
-  "54": Problem54,
-};
-
 export default function Contents({ id }: { id: QuestionId }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState("");
+  const [evaluationResult, setEvaluationResult] = useState("");
 
-  const [answer, setAnswer] = useState<SentenceCompletionAnswer>({
-    answer1: "",
-    answer2: "",
-  });
+  const [sentenceCompletionAnswer, setSentenceCompletionAnswer] =
+    useState<SentenceCompletionAnswer>({
+      answer1: "",
+      answer2: "",
+    });
 
   const [essayAnswer, setEssayAnswer] = useState<string>("");
 
@@ -36,7 +26,7 @@ export default function Contents({ id }: { id: QuestionId }) {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const key = icon === "ㄱ" ? "answer1" : "answer2";
-    setAnswer((prev) => ({
+    setSentenceCompletionAnswer((prev) => ({
       ...prev,
       [key]: e.target.value,
     }));
@@ -47,24 +37,29 @@ export default function Contents({ id }: { id: QuestionId }) {
   };
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 ADK 세션을 초기화합니다.
+    // 컴포넌트가 마운트될 때 ADK 세션을 초기화
     initAdkSession();
   }, []);
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    setResult("");
+    setEvaluationResult("");
     try {
       const context = renderToStaticMarkup(MockContexts[id])
-        ?.replace(/<[^>]*>/g, " ") // 태그 제거
+        ?.replace(/<[^>]*>/g, " ")
         ?.replace(/\s+/g, " ")
         .trim();
 
-      const data = await fetchEvaluation(id, answer, essayAnswer, context);
+      const fetchEvaluationResponse = await fetchEvaluation(
+        id,
+        sentenceCompletionAnswer,
+        essayAnswer,
+        context
+      );
 
-      setResult(JSON.stringify(data, null, 2));
+      setEvaluationResult(JSON.stringify(fetchEvaluationResponse));
     } catch (e) {
-      setResult(
+      setEvaluationResult(
         e instanceof Error
           ? `오류가 발생했습니다: ${e.message}`
           : "알 수 없는 오류가 발생했습니다."
@@ -74,11 +69,9 @@ export default function Contents({ id }: { id: QuestionId }) {
     }
   };
 
-  const ProblemComponent = problemComponentMap[id];
-
   return (
     <>
-      <ProblemComponent context={MockContexts[id]} />
+      <Question context={MockContexts[id]} />
 
       {id === "53" || id === "54" ? (
         <TextareaWithButton
@@ -90,14 +83,15 @@ export default function Contents({ id }: { id: QuestionId }) {
         <div className="flex flex-col gap-5">
           <AnswerUploadField
             icon="ㄱ"
-            value={answer.answer1}
+            value={sentenceCompletionAnswer.answer1}
             onChange={handleInputChange}
           />
           <AnswerUploadField
             icon="ㄴ"
-            value={answer.answer2}
+            value={sentenceCompletionAnswer.answer2}
             onChange={handleInputChange}
           />
+          {/* 51, 52번용 제출 버튼이 필요하면 여기에 추가 */}
         </div>
       )}
 
@@ -107,10 +101,12 @@ export default function Contents({ id }: { id: QuestionId }) {
           <p>채점 결과를 기다리는 중입니다...</p>
         </div>
       )}
-      {result && !isLoading && (
+      {evaluationResult && !isLoading && (
         <div className="mt-5 p-4 border rounded-md bg-gray-50">
           <p className="font-semibold">채점 결과</p>
-          <pre className="whitespace-pre-wrap break-words">{result}</pre>
+          <pre className="whitespace-pre-wrap break-words">
+            {evaluationResult}
+          </pre>
         </div>
       )}
       <button
@@ -122,4 +118,8 @@ export default function Contents({ id }: { id: QuestionId }) {
       </button>
     </>
   );
+}
+
+function Question({ context }: { context: React.ReactNode }) {
+  return <div className="flex flex-col border border-[#B4B4B4]">{context}</div>;
 }

@@ -8,13 +8,28 @@ import { QuestionPrompt } from "./mock";
 
 export async function initAdkSession() {
   try {
-    await kyInstance.post("/api/topik/session");
+    await kyInstance.post("/api/topik-write/session");
   } catch (error) {
-    console.error("Failed to initialize ADK session:", error);
+    console.error("Failed to zinitialize ADK session:", error);
   }
 }
 
-function formatPayload(
+export async function fetchEvaluation(
+  id: QuestionId,
+  answer: SentenceCompletionAnswer,
+  essayAnswer: string,
+  context: string
+) {
+  const request = fetchEvaluationRequest(id, answer, essayAnswer, context);
+
+  const response = await kyInstance.post("/api/topik-write/evaluate", {
+    json: request,
+  });
+
+  return response.json();
+}
+
+function fetchEvaluationRequest(
   id: QuestionId,
   answer: SentenceCompletionAnswer,
   essayAnswer: string,
@@ -36,19 +51,4 @@ function formatPayload(
     answer: essayAnswer,
     answerCharCount: essayAnswer.length,
   };
-}
-
-export async function fetchEvaluation(
-  id: QuestionId,
-  answer: SentenceCompletionAnswer,
-  essayAnswer: string,
-  context: string
-) {
-  const request = formatPayload(id, answer, essayAnswer, context);
-
-  const response = await kyInstance.post("/api/topik", {
-    json: request,
-  });
-
-  return response.json();
 }

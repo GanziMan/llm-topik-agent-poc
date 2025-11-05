@@ -1,4 +1,4 @@
-import { QuestionId } from "@/app/types";
+import { QuestionId } from "@/types/topikWriteType";
 import Contents from "../_components/Contents";
 import { QuestionTitle } from "../mock";
 

@@ -10,7 +10,7 @@ import Problem53 from "@/app/_components/question/53";
 import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import { QuestionId, SentenceCompletionAnswer } from "@/app/types";
+import { QuestionId, SentenceCompletionAnswer } from "@/types/write";
 import { fetchEvaluation, initAdkSession } from "../api";
 
 export default function Contents({ id }: { id: QuestionId }) {

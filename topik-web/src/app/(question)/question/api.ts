@@ -2,7 +2,7 @@ import {
   QuestionId,
   SentenceCompletionAnswer,
   TopikWritingEvaluatorRequest,
-} from "@/app/types";
+} from "@/types/write";
 import { kyInstance } from "@/lib/ky";
 import { QuestionPrompt } from "./mock";
 

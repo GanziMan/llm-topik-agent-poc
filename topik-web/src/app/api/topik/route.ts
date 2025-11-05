@@ -1,6 +1,6 @@
 import { kyInstance } from "@/lib/ky";
 import { NextResponse } from "next/server";
-import { TopikWritingEvaluatorRunResponse } from "@/app/types";
+import { TopikWritingEvaluatorRunResponse } from "@/types/write";
 import { topikWritingEvaluatorRequestSchema } from "@/app/schema";
 import { isHTTPError, isKyError, isTimeoutError } from "ky";
 import { cookies } from "next/headers";

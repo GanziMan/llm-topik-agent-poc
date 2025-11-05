@@ -1,4 +1,4 @@
-import { QuestionId } from "@/app/types";
+import { QuestionId } from "@/types/write";
 
 export const MockContexts: Record<QuestionId, React.ReactNode> = {
   "51": (

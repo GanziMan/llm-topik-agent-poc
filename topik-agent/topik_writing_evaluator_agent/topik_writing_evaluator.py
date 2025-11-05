@@ -38,22 +38,20 @@ class TopikWritingEvaluator(BaseAgent):
     @override
     async def _run_async_impl(self, ctx: InvocationContext):
 
-        user_text = ""
         if ctx.user_content and ctx.user_content.parts:
-            user_text = "".join(
+            payload_string = "".join(
                 part.text or "" for part in ctx.user_content.parts)
 
-        payload = None
-        if user_text:
+        if payload_string:
             try:
-                payload = json.loads(user_text)
+                payload_json = json.loads(payload_string)
             except json.JSONDecodeError:
                 raise ValueError("Failed to decode user input JSON.")
 
-        question_number = payload.get("question_number")
-        question_prompt = payload.get("question_prompt")
-        answer = payload.get("answer")
-        answer_char_count = payload.get("answerCharCount")
+        question_number = payload_json.get("question_number")
+        question_prompt = payload_json.get("question_prompt")
+        answer = payload_json.get("answer")
+        answer_char_count = payload_json.get("answerCharCount")
 
         char_count_note = f" \n[글자수]\n{answer_char_count}" if answer_char_count is not None else ""
         standard_prompt = f"[문제]\n{html.unescape(question_prompt)}\n\n[학생 답안]\n{answer}{char_count_note}"

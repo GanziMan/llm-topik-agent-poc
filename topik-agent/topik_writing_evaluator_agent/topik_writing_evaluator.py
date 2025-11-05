@@ -56,10 +56,10 @@ class TopikWritingEvaluator(BaseAgent):
         answer_char_count = payload.get("answerCharCount")
 
         char_count_note = f" \n[글자수]\n{answer_char_count}" if answer_char_count is not None else ""
-        formatted_prompt = f"[문제]\n{html.unescape(question_prompt)}\n\n[학생 답안]\n{answer}{char_count_note}"
+        standard_prompt = f"[문제]\n{html.unescape(question_prompt)}\n\n[학생 답안]\n{answer}{char_count_note}"
 
         ctx.user_content = types.Content(
-            parts=[types.Part(text=formatted_prompt)])
+            parts=[types.Part(text=standard_prompt)])
 
         if question_number in [51, 52]:
             sub_agent = self.sentence_completion_agent

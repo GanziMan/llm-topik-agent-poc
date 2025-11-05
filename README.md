@@ -25,8 +25,8 @@ TOPIK(한국어능력시험) 쓰기 문제(51~54번)를 자동으로 채점하�
 
    ```bash
    cd topik-web
-   npm install
-   npm run dev
+   pnpm install
+   pnpm dev
    ```
 
    브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속합니다.

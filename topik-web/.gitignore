@@ -29,3 +29,8 @@ npm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+*storybook.log
+storybook-static
+
+.npm-cache/

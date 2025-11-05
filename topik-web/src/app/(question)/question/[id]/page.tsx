@@ -1,5 +1,5 @@
 import { QuestionId } from "@/types/topikWriteType";
-import Contents from "../_components/Contents";
+import QuestionForm from "../_components/QuestionForm";
 import { QuestionTitle } from "../mock";
 
 export default async function ProblemPage({
@@ -15,7 +15,7 @@ export default async function ProblemPage({
         <p className="font-semibold">
           {id}. {QuestionTitle(id)}
         </p>
-        <Contents id={id} />
+        <QuestionForm id={id} />
       </div>
     </div>
   );

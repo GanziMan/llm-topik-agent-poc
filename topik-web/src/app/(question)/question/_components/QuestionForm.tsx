@@ -9,7 +9,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { QuestionId, SentenceCompletionAnswer } from "@/types/topikWriteType";
 import { initAdkSession, fetchEvaluation } from "../actions";
 
-export default function Contents({ id }: { id: QuestionId }) {
+export default function QuestionForm({ id }: { id: QuestionId }) {
   const [isLoading, setIsLoading] = useState(false);
   const [evaluationResult, setEvaluationResult] = useState("");
 

@@ -1,7 +1,7 @@
 from google.adk.agents import LlmAgent
 from topik_writing_evaluator_agent.prompt import ROLE_PROMPT, WRITING_EVALUATOR_TEMPLATE
 from .prompt import OUTPUT_FORMAT_SCHEMA, SCORING_GUIDE, CONTEXT_PROMPT, FEWSHOT_PROMPT
-from topik_writing_evaluator_agent.evaluators_agents.model_config import GENERATE_CONTENT_CONFIG, LLM_MODEL
+from topik_writing_evaluator_agent.sub_agents.model_config import GENERATE_CONTENT_CONFIG, LLM_MODEL
 
 
 WRITING_EVALUATOR_PROMPT = WRITING_EVALUATOR_TEMPLATE.format(

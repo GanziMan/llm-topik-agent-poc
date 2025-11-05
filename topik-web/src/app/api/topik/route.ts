@@ -1,15 +1,19 @@
 import { kyInstance } from "@/lib/ky";
 import { NextResponse } from "next/server";
-
 import { AdkRunResponse } from "@/app/types";
 import { topikWritingEvaluatorRequestSchema } from "@/app/schema";
 import { isHTTPError, isKyError, isTimeoutError } from "ky";
+import { cookies } from "next/headers";
 
 const APP = process.env.AGENT_APP ?? "topik_writing_evaluator";
-const SESSION = process.env.AGENT_SESSION ?? "session_1";
-const USER = process.env.AGENT_USER ?? "user_1";
 
 export async function POST(request: Request) {
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get("topik_token")?.value ?? "";
+  const userId = crypto.randomUUID();
+  await initAdkSession(APP, userId, sessionId);
+
+  console.log(request);
   try {
     const topikWritingEvaluatorRequest = await request.json();
 
@@ -24,16 +28,6 @@ export async function POST(request: Request) {
 
     const { problemId, questionPrompt, answer, charCount } = data;
 
-    try {
-      await kyInstance.get(`apps/${APP}/users/${USER}/sessions/${SESSION}`);
-    } catch (error: unknown) {
-      if (error instanceof Error && "response" in error) {
-        await kyInstance.post(`apps/${APP}/users/${USER}/sessions`, {
-          json: { sessionId: SESSION },
-        });
-      }
-    }
-
     const adkResponse = await kyInstance
       .post("run", {
         json: adkRequest(
@@ -42,7 +36,9 @@ export async function POST(request: Request) {
             question_prompt: questionPrompt,
             answer,
             ...(charCount !== undefined && { char_count: charCount }),
-          })
+          }),
+          userId,
+          sessionId
         ),
       })
       .json<AdkRunResponse>();
@@ -53,21 +49,18 @@ export async function POST(request: Request) {
     return NextResponse.json(JSON.parse(jsonString));
   } catch (err) {
     if (isHTTPError(err)) {
-      console.log(err.response.status);
       return NextResponse.json(
         { error: "Agent proxy failed", details: err.message },
         { status: err.response.status }
       );
     }
     if (isKyError(err)) {
-      console.log("에러3");
       return NextResponse.json(
         { error: "Agent proxy failed", details: err.message },
         { status: 500 }
       );
     }
     if (isTimeoutError(err)) {
-      console.log("에러4");
       return NextResponse.json(
         { error: "Agent proxy failed", details: err.message },
         { status: 500 }
@@ -77,15 +70,29 @@ export async function POST(request: Request) {
   }
 }
 
-function adkRequest(text: string) {
+function adkRequest(text: string, userId: string, sessionId: string) {
   return {
     app_name: APP,
-    user_id: USER,
-    session_id: SESSION,
+    user_id: userId,
+    session_id: sessionId,
 
     new_message: {
       parts: [{ text }],
       role: "user",
     },
   };
+}
+
+async function initAdkSession(app: string, user: string, session: string) {
+  try {
+    await kyInstance.get(`apps/${app}/users/${user}/sessions/${session}`);
+  } catch (e) {
+    if (isHTTPError(e) && e.response.status === 404) {
+      await kyInstance.post(`apps/${app}/users/${user}/sessions`, {
+        json: { session_id: session },
+      });
+    } else {
+      throw e;
+    }
+  }
 }

@@ -10,8 +10,19 @@ export function middleware(request: NextRequest) {
   if (!QUESTION_NUMBER.includes(questionNumber) || pathname === "/") {
     return NextResponse.redirect(new URL("/question/51", request.url));
   }
+
+  const sessionCookie = request.cookies.get("topik_token");
+
+  if (!sessionCookie) {
+    const topikToken = crypto.randomUUID();
+    const response = NextResponse.next();
+    response.cookies.set("topik_token", topikToken);
+    return response;
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/problem/:path*", "/"],
+  matcher: ["/question/:path*"],
 };

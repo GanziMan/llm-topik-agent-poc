@@ -1,7 +1,7 @@
 from .topik_writing_evaluator import TopikWritingEvaluator
-from .evaluators_agents.sentence_completion_agent import sentence_completion_agent
-from .evaluators_agents.info_description_agent import info_description_agent
-from .evaluators_agents.opinion_essay_agent import opinion_essay_agent
+from .sub_agents.sentence_completion import sentence_completion_agent
+from .sub_agents.info_description import info_description_agent
+from .sub_agents.opinion_essay import opinion_essay_agent
 
 
 root_agent = TopikWritingEvaluator(

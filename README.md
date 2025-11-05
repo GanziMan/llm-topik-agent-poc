@@ -1,1 +1,1 @@
-![img](./api//architecture.png)
+![img](./topik-agent//architecture.png)

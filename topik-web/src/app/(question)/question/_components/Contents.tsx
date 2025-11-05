@@ -3,14 +3,14 @@
 import TextareaWithButton from "./TextareaWithButton";
 import InputUpload from "./InputWithUpload";
 import Problem54 from "@/app/_components/question/54";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Problem51 from "@/app/_components/question/51";
 import Problem52 from "@/app/_components/question/52";
 import Problem53 from "@/app/_components/question/53";
 import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import { fetchEvaluation } from "./api";
+import { initAdkSession, fetchEvaluation } from "./api";
 import { QuestionId, SentenceCompletionAnswer } from "@/app/types";
 
 export default function Contents({ id }: { id: QuestionId }) {
@@ -38,6 +38,12 @@ export default function Contents({ id }: { id: QuestionId }) {
   const handleEssayChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEssayAnswer(e.target.value);
   };
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 ADK 세션을 초기화합니다.
+    initAdkSession();
+  }, []);
+
   const handleSubmit = async () => {
     setIsLoading(true);
     setResult("");
@@ -49,7 +55,7 @@ export default function Contents({ id }: { id: QuestionId }) {
 
       const data = await fetchEvaluation(id, answer, essayAnswer, context);
 
-      setResult(JSON.stringify(data));
+      setResult(JSON.stringify(data, null, 2));
     } catch (e) {
       setResult(
         e instanceof Error

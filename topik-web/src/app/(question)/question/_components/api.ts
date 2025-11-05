@@ -6,6 +6,20 @@ import {
 import { kyInstance } from "@/lib/ky";
 import { QuestionPrompt } from "../mock";
 
+/**
+ * 컴포넌트 마운트 시 호출하여 ADK 세션을 초기화합니다.
+ */
+export async function initAdkSession() {
+  try {
+    await kyInstance.post("/api/topik/session");
+  } catch (error) {
+    console.error("Failed to initialize ADK session:", error);
+    // 세션 초기화 실패는 치명적인 오류는 아닐 수 있으므로,
+    // 여기서는 에러를 던지지 않고 콘솔에만 기록합니다.
+    // 필요하다면 사용자에게 알림을 표시할 수 있습니다.
+  }
+}
+
 function formatPayload(
   id: QuestionId,
   answer: SentenceCompletionAnswer,
@@ -38,11 +52,10 @@ export async function fetchEvaluation(
 ) {
   const request = formatPayload(id, answer, essayAnswer, context);
 
-  const response = await kyInstance
-    .post("/api/topik", {
-      json: request,
-    })
-    .then((response) => response.json());
+  // kyInstance.post의 반환값은 Promise<Response> 이므로 .json()을 호출해야 합니다.
+  const response = await kyInstance.post("/api/topik", {
+    json: request,
+  });
 
-  return response;
+  return response.json();
 }

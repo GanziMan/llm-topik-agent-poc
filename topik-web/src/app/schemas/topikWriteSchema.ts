@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const topikWritingEvaluatorRequestSchema = z.object({
-  problemId: z.enum(["51", "52", "53", "54"]),
+  questionNumber: z.enum(["51", "52", "53", "54"]),
   questionPrompt: z.string().min(1, "Question cannot be empty."),
   answer: z.union([
     z.string(),

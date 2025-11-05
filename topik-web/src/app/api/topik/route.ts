@@ -1,7 +1,7 @@
 import { kyInstance } from "@/lib/ky";
 import { NextResponse } from "next/server";
-import { TopikWritingEvaluatorRunResponse } from "@/types/write";
-import { topikWritingEvaluatorRequestSchema } from "@/app/schema";
+import { TopikWritingEvaluatorRunResponse } from "@/types/topikWriteType";
+import { topikWritingEvaluatorRequestSchema } from "@/app/schemas/topikWriteSchema";
 import { isHTTPError, isKyError, isTimeoutError } from "ky";
 import { cookies } from "next/headers";
 
@@ -25,13 +25,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error }, { status: 400 });
     }
 
-    const { problemId, questionPrompt, answer, answerCharCount } = data;
+    const { questionNumber, questionPrompt, answer, answerCharCount } = data;
 
     const topikWritingEvaluatorResponse = await kyInstance
       .post("run", {
         json: topikWritingEvaluatorRequest(
           JSON.stringify({
-            question_number: Number(problemId),
+            question_number: Number(questionNumber),
             question_prompt: questionPrompt,
             answer,
             ...(answerCharCount !== undefined && {

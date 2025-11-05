@@ -1,7 +1,7 @@
 "use client";
 
 import TextareaWithButton from "./TextareaWithButton";
-import InputUpload from "./InputWithUpload";
+import AnswerUploadField from "./AnswerUploadField";
 import Problem54 from "@/app/_components/question/54";
 import { useEffect, useState } from "react";
 import Problem51 from "@/app/_components/question/51";
@@ -86,12 +86,12 @@ export default function Contents({ id }: { id: QuestionId }) {
         />
       ) : (
         <div className="flex flex-col gap-5">
-          <InputUpload
+          <AnswerUploadField
             icon="ㄱ"
             value={answer.answer1}
             onChange={handleInputChange}
           />
-          <InputUpload
+          <AnswerUploadField
             icon="ㄴ"
             value={answer.answer2}
             onChange={handleInputChange}

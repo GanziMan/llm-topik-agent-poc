@@ -38,21 +38,21 @@ export type TopikWritingEvaluatorRequest =
   | OpinionEssayRequest;
 
 // ====== ADK Server Response Types ======
-export interface AdkEventPart {
+export interface TopikWritingEvaluatorEventPart {
   text: string;
 }
 
-export interface AdkEventContent {
-  parts: AdkEventPart[];
+export interface TopikWritingEvaluatorEventContent {
+  parts: TopikWritingEvaluatorEventPart[];
   role: "model";
 }
 
-export interface AdkEvent {
+export interface TopikWritingEvaluatorEvent {
   id: string;
   timestamp: number;
   author: string;
-  content: AdkEventContent;
+  content: TopikWritingEvaluatorEventContent;
   finishReason: "STOP" | string;
 }
 
-export type AdkRunResponse = AdkEvent[];
+export type TopikWritingEvaluatorRunResponse = TopikWritingEvaluatorEvent[];

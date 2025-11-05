@@ -1,15 +1,19 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-export default function InputUpload({
+export default function AnswerUploadField({
   icon = "ㄱ",
   value,
   onChange,
+  className,
 }: {
   icon?: string;
   value: string;
   onChange?: (icon: string, e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }) {
   return (
     <div className="relative">
@@ -24,9 +28,12 @@ export default function InputUpload({
         className="absolute top-5 right-5"
       />
 
-      <input
+      <Input
         type="text"
-        className="w-full h-[63px] pl-[63px] py-[15px] border-[0.5px] border-[#B3B3B3] rounded-[10px]"
+        className={cn(
+          "w-full h-[63px] pl-[63px] py-[15px] border-[0.5px] border-[#B3B3B3] rounded-[10px]",
+          className
+        )}
         placeholder="내용을 입력하세요."
         value={value}
         onChange={(e) => onChange?.(icon, e)}

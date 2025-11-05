@@ -9,7 +9,7 @@ const APP = process.env.AGENT_APP ?? "topik_writing_evaluator";
 
 export async function POST(request: Request) {
   const cookieStore = await cookies();
-  const sessionId = cookieStore.get("topik_token")?.value ?? "";
+  const sessionId = cookieStore.get("session_id")?.value ?? "";
   const userId = crypto.randomUUID();
 
   await initTopikWritingEvaluatorSession(APP, userId, sessionId);

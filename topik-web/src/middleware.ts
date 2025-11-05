@@ -11,12 +11,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/question/51", request.url));
   }
 
-  const sessionCookie = request.cookies.get("topik_token");
+  const sessionCookie = request.cookies.get("session_id");
 
   if (!sessionCookie) {
-    const topikToken = crypto.randomUUID();
+    const sessionId = crypto.randomUUID();
     const response = NextResponse.next();
-    response.cookies.set("topik_token", topikToken);
+    response.cookies.set("session_id", sessionId);
     return response;
   }
 

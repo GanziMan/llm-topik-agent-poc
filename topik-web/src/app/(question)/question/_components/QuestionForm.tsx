@@ -104,7 +104,7 @@ export default function QuestionForm({ id }: { id: QuestionId }) {
       {evaluationResult && !isLoading && (
         <div className="mt-5 p-4 border rounded-md bg-gray-50">
           <p className="font-semibold">채점 결과</p>
-          <pre className="whitespace-pre-wrap break-words">
+          <pre className="whitespace-pre-wrap wrap-break-words">
             {evaluationResult}
           </pre>
         </div>

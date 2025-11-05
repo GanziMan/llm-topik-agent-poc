@@ -27,12 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased mb-[90px]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased mb-22.5`}
       >
         <Header />
         {children}
         <Footer>
-          <button className="w-20 h-[50px] bg-[#737373] text-white rounded-[10px] cursor-pointer">
+          <button className="w-20 h-12.5 bg-[#737373] text-white rounded-[10px] cursor-pointer">
             풀이 완료
           </button>
         </Footer>

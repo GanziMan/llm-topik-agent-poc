@@ -9,9 +9,9 @@ export default async function ProblemPage({
 }) {
   const { id } = await params;
   return (
-    <div className="flex flex-col gap-[30px]">
+    <div className="flex flex-col gap-7.5">
       <p className="font-semibold text-[20px]">TOPIK II | 쓰기 | {id}번 유형</p>
-      <div className="flex flex-col gap-[30px] max-w-[600px] mx-auto">
+      <div className="flex flex-col gap-7.5 max-w-[600px] mx-auto">
         <p className="font-semibold">
           {id}. {QuestionTitle(id)}
         </p>

@@ -12,16 +12,16 @@ export default function TextareaWithButton({
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }) {
   return (
-    <div className="flex flex-col gap-[10px]">
+    <div className="flex flex-col gap-2.5">
       <textarea
-        className="w-full h-[136px] px-5 py-[15px] border-[0.5px] border-[#B3B3B3] rounded-[10px] resize-none"
+        className="w-full h-34 px-5 py-3.75 border-[0.5px] border-[#B3B3B3] rounded-[10px] resize-none"
         placeholder="내용을 입력하세요."
         value={essayAnswer}
         onChange={onChange}
       />
 
       <div className="flex items-center justify-between">
-        <div className="flex gap-[10px]">
+        <div className="flex gap-2.5">
           <Button type="upload" text="답안지 업로드" />
           <Button type="eye" text="원고지 보기" />
         </div>
@@ -34,7 +34,7 @@ export default function TextareaWithButton({
 }
 function Button({ type, text }: { type: "upload" | "eye"; text: string }) {
   return (
-    <button className="cursor-pointer flex items-center gap-[10px] p-[10px] border-[0.5px] border-[#C8C8C8] rounded-[10px]">
+    <button className="cursor-pointer flex items-center gap-2.5 p-2.5 border-[0.5px] border-[#C8C8C8] rounded-[10px]">
       <Image
         src={`/icons/icon-${type}.svg`}
         alt={type}

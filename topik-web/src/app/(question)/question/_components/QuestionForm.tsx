@@ -112,7 +112,7 @@ export default function QuestionForm({ id }: { id: QuestionId }) {
       <button
         onClick={handleSubmit}
         disabled={isLoading}
-        className="w-20 h-[50px] bg-[#737373] text-white rounded-[10px] cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+        className="w-20 h-12.5 bg-[#737373] text-white rounded-[10px] cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
         {isLoading ? "채점 중..." : "제출"}
       </button>

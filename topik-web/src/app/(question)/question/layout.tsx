@@ -3,5 +3,5 @@ export default function ProblemLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <section className="w-full h-full p-[30px]">{children}</section>;
+  return <section className="w-full h-full p-7.5">{children}</section>;
 }

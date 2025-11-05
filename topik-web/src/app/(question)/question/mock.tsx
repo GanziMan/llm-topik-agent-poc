@@ -2,14 +2,14 @@ import { QuestionId } from "@/types/topikWriteType";
 
 export const MockContexts: Record<QuestionId, React.ReactNode> = {
   "51": (
-    <div className="p-[30px] font-medium bg-[#fafafa]">
+    <div className="p-7.5 font-medium bg-[#fafafa]">
       한 달 전에 이사를 했습니다. 그동안 집안 정리 때문에 정신이 없었는데 이제
       좀 정리가 됐습니다. 그래서 저희 집에서 ( ᄀ ). ( ᄂ )? 그 시간이
       괜찮으신지 연락 주시면 감사하겠습니다.
     </div>
   ),
   "52": (
-    <div className="p-[30px] font-medium bg-[#fafafa]">
+    <div className="p-7.5 font-medium bg-[#fafafa]">
       스트레스를 받았을 때 사탕이나 과자와 같이 단 음식을 먹으면 기분이
       좋아진다. 단 음식으로 인해 뇌에서 기분을 좋게 만드는 호르몬이 나오기
       때문이다. 그런데 전문가들은 사람들이 술이나 담배에 중독되는 것처럼
@@ -18,7 +18,7 @@ export const MockContexts: Record<QuestionId, React.ReactNode> = {
     </div>
   ),
   "53": (
-    <div className="p-[30px] font-medium bg-[#fafafa]">
+    <div className="p-7.5 font-medium bg-[#fafafa]">
       <p className="font-bold text-2xl">인터넷의 장단점</p>
       <p className="font-bold">장점</p>
       <ol className="list-disc">
@@ -36,7 +36,7 @@ export const MockContexts: Record<QuestionId, React.ReactNode> = {
   ),
   "54": (
     <>
-      <div className="p-[30px] font-medium bg-[#fafafa]">
+      <div className="p-7.5 font-medium bg-[#fafafa]">
         오늘날 우리는 정보 통신 기술의 발달로 누구나 쉽게 정보를 생산하고
         대중에게 전달할 수 있다. 그런데 정보의 생산과 유통을 통해 개인과 집단이
         이익을 얻을 수 있게 되면서 사실과 다른 가짜 뉴스가 늘어나고 있다. 아래의

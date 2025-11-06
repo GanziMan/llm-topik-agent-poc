@@ -7,7 +7,7 @@ import { MockContexts } from "../mock";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { QuestionId, SentenceCompletionAnswer } from "@/types/topikWriteType";
-import { initAdkSession, fetchEvaluation } from "../actions";
+import { initTopikWritingEvaluatorSession, fetchEvaluation } from "../actions";
 
 export default function QuestionForm({ id }: { id: QuestionId }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,7 @@ export default function QuestionForm({ id }: { id: QuestionId }) {
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 ADK 세션을 초기화
-    initAdkSession();
+    initTopikWritingEvaluatorSession();
   }, []);
 
   const handleSubmit = async () => {

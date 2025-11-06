@@ -6,7 +6,7 @@ import {
 import { kyInstance } from "@/lib/ky";
 import { QuestionPrompt } from "./mock";
 
-export async function initAdkSession() {
+export async function initTopikWritingEvaluatorSession() {
   try {
     await kyInstance.post("/api/topik-write/session");
   } catch (error) {

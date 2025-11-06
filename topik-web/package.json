@@ -15,6 +15,7 @@
     "@google/generative-ai": "^0.24.1",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-separator": "^1.1.8",
+    "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/postcss": "^4.1.13",
     "ai": "^5.0.75",
     "class-variance-authority": "^0.7.1",
@@ -25,6 +26,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwind-merge": "^3.3.1",
+    "tailwind-styled-components": "^2.2.0",
     "tailwindcss": "^4.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^4.1.12"
@@ -36,20 +38,20 @@
     "@storybook/addon-docs": "^10.0.4",
     "@storybook/addon-onboarding": "^10.0.4",
     "@storybook/addon-vitest": "^10.0.4",
+    "@storybook/nextjs-vite": "^10.0.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/browser-playwright": "^4.0.7",
+    "@vitest/coverage-v8": "^4.0.7",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
     "eslint-plugin-storybook": "^10.0.4",
+    "playwright": "^1.56.1",
     "postcss": "^8.5.6",
     "storybook": "^10.0.4",
     "typescript": "^5",
-    "@storybook/nextjs-vite": "^10.0.4",
-    "vitest": "^4.0.7",
-    "playwright": "^1.56.1",
-    "@vitest/browser-playwright": "^4.0.7",
-    "@vitest/coverage-v8": "^4.0.7"
+    "vitest": "^4.0.7"
   }
 }

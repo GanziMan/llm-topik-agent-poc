@@ -18,6 +18,6 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     value: "Hello, world!",
-    className: "w-[400px]",
+    className: "w-full",
   },
 };

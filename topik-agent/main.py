@@ -17,7 +17,8 @@ from google.adk.evaluation.local_eval_set_results_manager import (
 )
 from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
 from google.adk.sessions.in_memory_session_service import InMemorySessionService
-from topik_writing_evaluator_agent.agent import root_agent
+from topik_writing_evaluator_agent.agent import root_agent as evaluator_root_agent
+from topik_writing_corrector_agent.agent import root_agent as corrector_root_agent
 
 # .env 파일 로드
 load_dotenv()
@@ -26,20 +27,22 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 
 
-class TopikWritingEvaluatorAgentLoader(BaseAgentLoader):
+class TopikAgentsLoader(BaseAgentLoader):
     def load_agent(self, app_name: str) -> Union[BaseAgent, App]:
         if app_name == "topik_writing_evaluator":
-            return App(name=app_name, root_agent=root_agent)
+            return App(name=app_name, root_agent=evaluator_root_agent)
+        if app_name == "topik_writing_corrector":
+            return App(name=app_name, root_agent=corrector_root_agent)
         raise ValueError(f"Unknown app: {app_name}")
 
     def list_agents(self) -> list[str]:
-        return ["topik_writing_evaluator"]
+        return ["topik_writing_evaluator", "topik_writing_corrector"]
 
 
 AGENTS_DIR = os.path.dirname(__file__)
 
 
-agent_loader = TopikWritingEvaluatorAgentLoader()
+agent_loader = TopikAgentsLoader()
 session_service = InMemorySessionService()
 artifact_service = InMemoryArtifactService()
 credential_service = InMemoryCredentialService()

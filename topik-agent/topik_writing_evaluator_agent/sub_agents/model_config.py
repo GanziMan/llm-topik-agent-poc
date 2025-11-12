@@ -3,6 +3,7 @@ from google.genai import types
 GENERATE_CONTENT_CONFIG = types.GenerateContentConfig(
     temperature=0,
     top_p=0.9,
+    response_mime_type="application/json",
 )
 
 

@@ -1,6 +1,7 @@
 OUTPUT_FORMAT_SCHEMA = """
 {
   "original_answer": String,
+  "corrected_answer": String,
   "edit_items": {
     "vocabulary_spelling_corrections": [
       { "original": String, "revised": String, "position": String, "reason": String }

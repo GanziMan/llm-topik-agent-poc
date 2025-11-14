@@ -10,8 +10,6 @@ OUTPUT_FORMAT_SCHEMA = """
   "weaknesses": [String],
   "improvement_suggestions": [String],
   "overall_feedback": String,  
-  "char_count": Number,
-  "char_count_evaluation": String,
   "model_answer": String, 
 }
 """
@@ -81,8 +79,6 @@ FEWSHOT_PROMPT = """
     "결론에서 학습자 관점의 시사점을 한 문장 덧붙이면 완성도가 더 높아집니다."
   ],
   "overall_feedback": "도표의 수치·추세·원인을 균형 있게 반영한 우수한 설명문입니다.",
-  "char_count": 245,
-  "char_count_evaluation": "적정 범위 내",
   "model_answer": "최근 몇 년 사이 편의점 매출이 크게 늘고 대형마트는 정체된 모습이다. 점포 수 확대로 접근성이 높아지고, 간편식·소포장 수요가 증가한 것이 주된 원인이다. 이러한 흐름은 내년에도 이어져 편의점 매출이 대형마트를 앞설 것으로 보인다."
 }
 """

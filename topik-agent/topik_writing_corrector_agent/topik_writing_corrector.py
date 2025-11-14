@@ -66,7 +66,7 @@ class TopikWritingCorrector(BaseAgent):
         question_number = payload_json.get("question_number")
         question_prompt = payload_json.get("question_prompt")
         answer = payload_json.get("answer")
-        answer_char_count = payload_json.get("answer_char_count")
+        answer_length = len(answer) if answer else 0
         evaluation_result = payload_json.get("evaluation_result")
 
         score_guideline = ""
@@ -88,16 +88,12 @@ class TopikWritingCorrector(BaseAgent):
                 f"\n\n[이전 AI 채점 결과]\n{json.dumps(evaluation_result, indent=2, ensure_ascii=False)}"
             )
 
-        char_count_note = (
-            f" \n[글자수]\n{answer_char_count}"
-            if answer_char_count is not None
+        answer_length_prompt = (
+            f" \n[글자수]\n{answer_length}"
+            if answer_length is not None
             else ""
         )
-        standard_prompt = (
-            f"{main_prompt}\n\n"
-            f"[문제]\n{html.unescape(question_prompt)}\n\n"
-            f"[학생 답안]\n{answer}{char_count_note}"
-        )
+        standard_prompt = f"{main_prompt}\n\n[문제]\n{html.unescape(question_prompt)}\n\n[학생 답안]\n{answer} \n\n{answer_length_prompt}"
 
         if question_number == 53 and image_parts:
             ctx.user_content = types.Content(
